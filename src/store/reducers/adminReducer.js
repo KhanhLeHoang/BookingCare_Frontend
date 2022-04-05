@@ -1,33 +1,83 @@
 import actionTypes from '../actions/actionTypes';
 
 const initialState = {
-    isLoggedIn: false,
-    adminInfo: null
+  isLoadingGender: false,
+  genderRedux: [],
+  roleRedux: [],
+  positionRedux: [],
+  users: [],
+  topDoctors: [],
+  allDoctors: [],
 }
 
-const appReducer = (state = initialState, action) => {
-    switch (action.type) {
-        case actionTypes.ADMIN_LOGIN_SUCCESS:
-            return {
-                ...state,
-                isLoggedIn: true,
-                adminInfo: action.adminInfo
-            }
-        case actionTypes.ADMIN_LOGIN_FAIL:
-            return {
-                ...state,
-                isLoggedIn: false,
-                adminInfo: null
-            }
-        case actionTypes.PROCESS_LOGOUT:
-            return {
-                ...state,
-                isLoggedIn: false,
-                adminInfo: null
-            }
-        default:
-            return state;
-    }
+const adminReducer = (state = initialState, action) => {
+  let copyState = { ...state }
+  switch (action.type) {
+    case actionTypes.FETCH_GENDER_START:
+      copyState.isLoadingGender = true
+      return {
+        ...copyState,
+      }
+    case actionTypes.FETCH_GENDER_SUCCESS:
+      copyState.genderRedux = action.data
+      copyState.isLoadingGender = false
+      return {
+        ...copyState,
+      }
+    case actionTypes.FETCH_GENDER_FAILED:
+      copyState.isLoadingGender = false
+      return {
+        ...state,
+      }
+    case actionTypes.FETCH_POSITION_SUCCESS:
+      copyState.positionRedux = action.data
+      return {
+        ...copyState,
+      }
+    case actionTypes.FETCH_POSITION_FAILED:
+      return {
+        ...state,
+      }
+    case actionTypes.FETCH_ROLE_SUCCESS:
+      copyState.roleRedux = action.data
+      return {
+        ...copyState,
+      }
+    case actionTypes.FETCH_ROLE_FAILED:
+      return {
+        ...state,
+      }
+    case actionTypes.FETCH_ALL_USERS_SUCCESS:
+      copyState.users = action.users
+      return {
+        ...copyState,
+      }
+    case actionTypes.FETCH_ALL_USERS_FAILED:
+      return {
+        ...state,
+      }
+    case actionTypes.FETCH_TOP_DOCTORS_SUCCESS:
+      copyState.topDoctors = action.data
+      return {
+        ...copyState,
+      }
+    case actionTypes.FETCH_TOP_DOCTORS_FAILED:
+      return {
+        ...state,
+      }
+
+    case actionTypes.FETCH_ALL_DOCTORS_SUCCESS:
+      copyState.allDoctors = action.data
+      return {
+        ...copyState,
+      }
+    case actionTypes.FETCH_ALL_DOCTORS_FAILED:
+      return {
+        ...state,
+      }
+    default:
+      return state;
+  }
 }
 
-export default appReducer;
+export default adminReducer;
